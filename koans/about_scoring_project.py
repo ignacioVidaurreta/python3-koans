@@ -32,9 +32,33 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+def get_repetitions(dice):
+    score_dict = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
+    for number in dice:
+        score_dict[number] +=1
+
+    return score_dict
+
 def score(dice):
-    # You need to write this method
-    pass
+    if (not dice): #If score is an empty array do nothing
+        return 0
+    score_dict = get_repetitions(dice)
+    score = 0
+    for num in range(1, 7):
+        if(num == 1):
+            if(score_dict[num] >= 3):
+                score+=1000
+                score_dict[num]-=3
+            score += 100 * score_dict[num]
+        if(score_dict[num] >= 3):
+            score += 100 * num
+            score_dict[num]-=3
+        if(num == 5):
+            score+= 50*score_dict[num]
+
+    return score
+
+
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
